@@ -46,3 +46,41 @@ years.indexOf(1991);
 years.indexOf(1998) === -1 ? 'Ivan borned in another date ' :  'Ivan borned in 1998';
 
 
+ /**OBJECTS AND PROPERTIES */
+
+/**Defining an object literal */
+var ivan = {
+  firstName: 'Ivan',
+  lastName: 'Boneti',
+  age: 21,
+  birthYear: 1998,
+  familyMembers: ['Claudete', 'Luiz'],
+  job: 'IT',
+  isMarried: false
+};
+
+/**Get values in objects */
+ivan.firstName;
+
+/**Another way to get values in objects */
+(ivan['familyMembers'][0]);
+
+/**New object syntax */
+var claudete = new Object();
+claudete.middleName = 'Fausto';
+claudete['lastName'] = 'Boneti';
+
+var birthYear = 1998
+
+/**Objects and methods */
+var luiz = {
+  birthYear: 1968,
+  calcAge: function(){
+    /**Declare THIS to get the Object scope instead Global scope */
+    this.age = new Date().getFullYear() - this.birthYear;
+  }
+}
+
+/**Call object method and show */
+luiz.calcAge();
+console.log(luiz);
