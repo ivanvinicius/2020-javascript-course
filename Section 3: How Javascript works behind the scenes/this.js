@@ -63,5 +63,6 @@ mark = {
 }
 
 mark.calcAge = jonh.calcAge;
+
 jonh.calcAge();
 mark.calcAge();
