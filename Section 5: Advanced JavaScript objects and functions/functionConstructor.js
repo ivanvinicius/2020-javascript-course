@@ -17,7 +17,7 @@
  */
 
 /**
- * CONSTRUCTOR FUNCTION
+ * FUNCTION CONSTRUCTOR 
  *  
  * In Javascript convention constructors are created with initial capital letter
  */
@@ -28,7 +28,7 @@ var Person = function(name, yearOfBirth, job){
 }
 
 /**
- * Adding new methods or properties inside the constructor function. 
+ * Adding new methods or properties inside the function constructor . 
  * It's called INHERITANCE
 */
 Person.prototype.calculateAge = function(){
@@ -39,9 +39,7 @@ Person.prototype.lastName = function(lastName){
   this.lastName = lastName;
 }
 
-Person.prototype.city = 'Rio do sul';
-
-console.log(ivan.city);
+Person.prototype.middleName = 'Vinicius'
 
 /**
  * Creating new person object
@@ -63,4 +61,20 @@ mark.lastName('Smith');
 console.log(ivan);
 console.log(mark);
 
+/** To access the prototype of object you can use Person.prototype */
+ console.log(Person.prototype);
 
+ /** To compare prototype properties */
+ console.log(ivan.__proto__ === Person.prototype);
+
+ /** To access properties of function constructor */
+ console.log(ivan.hasOwnProperty('job')); //returns true because it's part of function constructor
+ console.log(ivan.hasOwnProperty('middleName')); // returns false because lastName is inheritance
+ console.log(ivan.hasOwnProperty('lastName')); // returns true because THIS variable was declared
+
+ /** To discover if and object is an instace of a function constructor */
+ console.log(ivan instanceof Person);
+
+ /** How to access hide object informations */
+ var x = [1, 2, 3];
+ console.info(x);
