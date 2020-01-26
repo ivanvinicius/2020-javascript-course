@@ -45,7 +45,7 @@ Person.prototype.middleName = 'Vinicius'
  * Creating new person object
  *
  * The NEW operador specifies that a new context(IVAN) needs to be created, this way
- * the THIS variable will not point to GLOBAL context. To check it run the commads 
+ * the THIS variable will not point to GLOBAL context. To check it out, run the commads 
  * below.
  * 
  * console.log(Person); 
