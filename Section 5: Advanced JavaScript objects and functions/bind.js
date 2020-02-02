@@ -22,7 +22,35 @@ ivan.calcAge.call(bruna, 2020)
 ivan.calcAge.apply(bruna, [2020])
 
 /** 
- * BIND method set a default argument in a method
+ * BIND method set a default argument in method
  * The argument YEAR could be set to 1900 as default
  * This way we do not need to repeat our code 
  */
+
+ var years = [1990, 1965, 1937, 2005, 1998];
+
+ function arrayCalc(arr, fn){
+    var arrRes = [];
+
+   for (let i = 0; i < arr.length; i++) {
+     arrRes.push(fn(arr[i]));
+   }
+
+   return arrRes;
+ }
+
+ function calculateAge(el){
+  return 2016 - el;
+ }
+
+ function isFullAge(limit, el){
+   return el >= limit;
+ }
+
+ var ages = arrayCalc(years, calculateAge);
+ 
+ var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20)); //this.ages //preset the limit to 20
+ 
+ console.log(ages);
+ console.log(fullJapan);
+ 
