@@ -1,20 +1,70 @@
-//module pattern using IIFE and closures
+/**
+ * module pattern using IIFE and closures
+ * 
+ * NOTE: Function constructors can't be arrow functions, it doesn't work 
+ */
 
 var budgetController = (() => {
+  var Expense = function(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  }
 
-  return {}
+  var Income = function(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  }
+
+  var data = {
+    allItems: {
+      exp: [],
+      inc: []
+    },
+    totals: {
+      exp: 0,
+      inc: 0
+    }
+  }
+
+  return {
+    addItem: (type, desc, val) => {
+      var newItem, id;
+      
+      if(data.allItems[type].length > 0){
+        id = data.allItems[type][data.allItems[type].length - 1].id + 1; //getting the last element created
+      }
+      else {
+        id = 0;
+      }
+
+      if(type === 'exp') {
+        newItem = new Expense(id, desc, val);
+      }
+      else {
+        newItem = new Income(id, desc, val);
+      }
+
+      data.allItems[type].push(newItem);
+
+      return newItem;
+    },
+
+
+  };
+
 })();
 
 
 
 
 var UIController = (() => {
-  
   var DOMstrings = {
     inputType: '.add__type',
     inputDescription: '.add__description',
     inputValue: '.add__value',
-    btnAdd: '.add__btn',
+    inputBtn: '.add__btn',
   }
 
   return {
@@ -26,38 +76,55 @@ var UIController = (() => {
       }
     },
 
+    addListItem: (obj, type) => {
+      
+
+    },
+
     getDOMstrings: () => {
       return DOMstrings;
     },
   };
+
 })();
 
 
 
 
 var controller = ((budgetCtrl, UICtrl) => {
-  var DOMstrings = UICtrl.getDOMstrings();
+  var setupEventListeners = () =>{
+    var DOMstrings = UICtrl.getDOMstrings();
+
+    document.querySelector(DOMstrings.inputBtn).addEventListener('click', ctrlAddItem);
+
+    document.addEventListener('keypress', (event) => {
+      if(event === 13 || event.which === 13) {
+        ctrlAddItem();      
+      }
+    });
+  }
 
   var ctrlAddItem = () => {
     //get input data
     var input = UICtrl.getInput();
 
     //add the item to the budget controller
-
+    var newItem = budgetController.addItem(input.type, input.description, input.value);
+        
     //add the item to the UI
+    UIController.addListItem(newItem, input.type);
 
     //calculate the budget
 
     //display the budget on the UI
   }
 
-  document.querySelector(DOMstrings.btnAdd).addEventListener('click', ctrlAddItem);
+  return {
+    init: () => {
+      setupEventListeners();
+    } 
+  };
 
-  document.addEventListener('keypress', (event) => {
-    if(event === 13 || event.which === 13) {
-      ctrlAddItem();      
-    }
-  });
-
-  return {}
 })(budgetController, UIController);
+
+controller.init();
