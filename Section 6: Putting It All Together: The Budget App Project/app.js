@@ -51,7 +51,9 @@ var budgetController = (() => {
       return newItem;
     },
 
-
+    testing: () => {
+      console.log(data);
+    },
   };
 
 })();
@@ -74,7 +76,7 @@ var UIController = (() => {
       return {
         type: document.querySelector(DOMstrings.inputType).value, //will be either inc or exp
         description: document.querySelector(DOMstrings.inputDescription).value,
-        value: document.querySelector(DOMstrings.inputValue).value,
+        value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
       }
     },
 
@@ -157,22 +159,32 @@ var controller = ((budgetCtrl, UICtrl) => {
     });
   }
 
+  var updateBudget = () => {
+    //calculate the budget
+
+    //return the budget
+    
+    //display the budget on the UI
+
+  }
+
   var ctrlAddItem = () => {
     //get input data
     var input = UICtrl.getInput();
 
-    //add the item to the budget controller
-    var newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-        
-    //add the item to the UI
-    UICtrl.addListItem(newItem, input.type);
-
-    //clear the fields
-    UICtrl.clearFields();
-
-    //calculate the budget
-
-    //display the budget on the UI
+    if(input.description !== "" && !isNaN(input.value) && input.value > 0) {
+      //add the item to the budget controller
+      var newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+          
+      //add the item to the UI
+      UICtrl.addListItem(newItem, input.type);
+  
+      //clear the fields
+      UICtrl.clearFields();
+  
+      //calculate and update budget
+      updateBudget();
+    }
   }
 
   return {
