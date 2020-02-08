@@ -83,7 +83,7 @@ var UIController = (() => {
       
       if (type === 'inc') {
           element = DOMstrings.incomeContainer;
-          
+
           html =  '<div class="item clearfix" id="inc-%id%">'+
                     '<div class="item__description">%description%</div>'+
                     '<div class="right clearfix">'+
@@ -116,6 +116,24 @@ var UIController = (() => {
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
 
+    clearFields: () => {
+      var fields, fieldsArray;
+      
+      fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+
+      /**
+       * Transform a list in array using the prototype chain of ARRAYS method
+       * after that, we set the THIS variable to fields in CALL method
+       */
+      fieldsArray = Array.prototype.slice.call(fields);
+
+      fieldsArray.forEach((element, index, array) => {
+        element.value = "";
+      });
+
+      fieldsArray[0].focus();
+    },
+
     getDOMstrings: () => {
       return DOMstrings;
     },
@@ -144,10 +162,13 @@ var controller = ((budgetCtrl, UICtrl) => {
     var input = UICtrl.getInput();
 
     //add the item to the budget controller
-    var newItem = budgetController.addItem(input.type, input.description, input.value);
+    var newItem = budgetCtrl.addItem(input.type, input.description, input.value);
         
     //add the item to the UI
-    UIController.addListItem(newItem, input.type);
+    UICtrl.addListItem(newItem, input.type);
+
+    //clear the fields
+    UICtrl.clearFields();
 
     //calculate the budget
 
