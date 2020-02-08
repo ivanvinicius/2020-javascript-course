@@ -63,6 +63,25 @@ var budgetController = (() => {
       return newItem;
     },
 
+    deleteItem: (type, id) => {
+      var ids, index;
+
+      /**
+       * The diference between forEach and Map is:
+       * Map method will always return an new array 
+       * from the current array
+       */
+      ids = data.allItems[type].map((element, ind, arr) => {
+        return element.id;
+      });
+
+      index = ids.indexOf(id);
+
+      if(index !== -1){
+        data.allItems[type].splice(index, 1);
+      }
+    },
+
     calculateBudget: () => {
       //calculate total income and expenses
       calculateTotal('inc');
@@ -247,15 +266,16 @@ var controller = ((budgetCtrl, UICtrl) => {
     }
   }
 
-  var ctrlDeleteItem = function(event) {
-    var itemId, type, id;
+  var ctrlDeleteItem = (event) => {
+    var item, type, id;
 
-    itemId = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    item = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
-    if(itemId){
-      [type, id] = itemId.split('-');
+    if(item){
+      [type, id] = item.split('-');
 
       //delete the item from the data structure
+      budgetCtrl.deleteItem(type, Number(id));
 
       //delete the item from the UI
 
