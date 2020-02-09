@@ -163,6 +163,24 @@ var UIController = (() => {
     expensesPercLabel: '.item__percentage',
   }
 
+  var formatNumber = (num, type) => {
+    var int, dec;
+    
+    // STRING -> "2000.0000" gonna be converted to 2000
+    num = Math.abs(num);
+
+    //2000 gonna be converted to STRING -> "2000.00"
+    num = num.toFixed(2);
+
+    [int, dec] = num.split('.')
+
+    if(int.length > 3) {
+      int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+    }
+
+    return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+  }
+
   return {
     getInput: () => {
       return {
@@ -205,7 +223,7 @@ var UIController = (() => {
       
       newHtml = html.replace('%id%', obj.id);
       newHtml = newHtml.replace('%description%', obj.description);
-      newHtml = newHtml.replace('%value%', obj.value);
+      newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
       
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
@@ -236,9 +254,13 @@ var UIController = (() => {
     },
 
     displayBudget: (obj) => {
-      document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
-      document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalIncome;
-      document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExpenses;
+      var type;
+
+      obj.budget > 0 ? type = 'inc' : type = 'exp';
+
+      document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+      document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalIncome, 'inc');
+      document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExpenses, 'exp');
       
       if(obj.percentage > 0){
         document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';
