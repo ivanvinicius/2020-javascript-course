@@ -1,7 +1,8 @@
 /**
  * module pattern using IIFE and closures
  * 
- * NOTE: Function constructors can't be arrow functions, it doesn't work 
+ * NOTE: Constructors can't be arrow functions, it doesn't work 
+ * because de THIS variable doesn't create a new scope in the memory
  */
 
 var budgetController = (() => {
@@ -9,6 +10,20 @@ var budgetController = (() => {
     this.id = id;
     this.description = description;
     this.value = value;
+    this.percentage = -1;
+  }
+
+  Expense.prototype.calcPercentage = function(totalIncome) {
+    if(totalIncome > 0) {
+      this.percentage = Math.round((this.value / totalIncome) * 100);
+    }
+    else{
+      this.percentage = -1;
+    }
+  }
+
+  Expense.prototype.getPercentage = function() {
+    return this.percentage;
   }
 
   var Income = function(id, description, value) {
@@ -98,6 +113,20 @@ var budgetController = (() => {
         data.percentage = -1;
       }
     },
+
+    calculatePercentages: () => {
+      data.allItems.exp.forEach((element) => {
+        element.calcPercentage(data.totals.inc);
+      })
+    },
+
+    getPercentages: () => {
+      var allPercentages = data.allItems.exp.map((element) => {
+        return element.getPercentage();
+      });
+
+      return allPercentages;
+    }, 
 
     getBudget: () => {
       return {
@@ -254,6 +283,17 @@ var controller = ((budgetCtrl, UICtrl) => {
     UICtrl.displayBudget(budget);
   }
 
+  var updatePercentages = () => {
+    //calculate the percentages
+    budgetCtrl.calculatePercentages();
+
+    //read percentages from the budget controller
+    var percentages = budgetCtrl.getPercentages(); 
+
+    //update the UI
+    console.log(percentages);
+  }
+
   var ctrlAddItem = () => {
     //get input data
     var input = UICtrl.getInput();
@@ -270,25 +310,31 @@ var controller = ((budgetCtrl, UICtrl) => {
   
       //calculate and update budget
       updateBudget();
+
+      //update the percentages
+      updatePercentages();
     }
   }
-
+  
   var ctrlDeleteItem = (event) => {
     var item, type, id;
-
+    
     item = event.target.parentNode.parentNode.parentNode.parentNode.id;
-
+    
     if(item){
       [type, id] = item.split('-');
-
+      
       //delete the item from the data structure
       budgetCtrl.deleteItem(type, Number(id));
-
+      
       //delete the item from the UI
       UICtrl.deleteListItem(item);
-
+      
       //calculate and update budget
       updateBudget();
+
+      //update the percentages
+      updatePercentages()
     }
   }
 
