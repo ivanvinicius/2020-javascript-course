@@ -161,6 +161,7 @@ var UIController = (() => {
     percentageLabel: '.budget__expenses--percentage',
     container: '.container',
     expensesPercLabel: '.item__percentage',
+    dateLabel: '.budget__title--month',
   }
 
   var formatNumber = (num, type) => {
@@ -291,6 +292,18 @@ var UIController = (() => {
       });
     },
 
+    displayDate: () => {
+      var now, month, year;
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      now = new Date();
+
+      month = now.getMonth();
+      year = now.getFullYear();
+
+      document.querySelector(DOMstrings.dateLabel).textContent = year + ', ' + monthNames[month];
+    },
+
     getDOMstrings: () => {
       return DOMstrings;
     },
@@ -384,6 +397,8 @@ var controller = ((budgetCtrl, UICtrl) => {
 
   return {
     init: () => {
+      UICtrl.displayDate();
+
       UICtrl.displayBudget({
         budget: 0,
         totalIncome: 0, 
