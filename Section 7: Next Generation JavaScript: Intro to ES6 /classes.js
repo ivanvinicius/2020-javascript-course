@@ -1,5 +1,10 @@
 //& Classes
 
+/**  
+ * NOTE: Classes are the same thing that function constructor, but,
+ * They are written in a different way to facilitate the understanding
+ */
+
 /**ES5 */
 var Person5 = function(name, yearOfBirth, job) {
   this.name = name;
@@ -32,11 +37,13 @@ class Person6 {
     console.log(age);
   }
 
+  /**
+   * Static methods in classes can't be inherited by the class instace,
+   *  It's simply attached to the classes 
+   */
   static greeting() {
-    console.log('Hey there!');
+    this.yearOfBirth = 1800;
   }
 }
-
-Person6.greeting();
 
 const john6 = new Person6('John', 1990, 'teacher');
