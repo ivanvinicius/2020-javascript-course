@@ -72,7 +72,7 @@ function reportParks(parks) {
  * 1.3 Size classification (tiny, small, normal, big, huge), as default NORMAL
  */
 class Street extends Town {
-  constructor(name, age, length, size) {
+  constructor(name, age, length, size = 2) {
     super(name, age);
     
     this.length = length;
@@ -80,7 +80,7 @@ class Street extends Town {
   }
 
   showInformationAbout(){
-    console.log(`This is ${this.name}. It was builded on ${this.age}`)
+    console.log(`This is ${this.name}. It was built on ${this.age}`)
   }
 
   calculateAverageLength() {
@@ -96,7 +96,7 @@ class Street extends Town {
 const allStreets = [
   new Street('Rivera Pallace Street', 1920, 38000, 3),
   new Street('Wall Street', 1920, 19300, 1),
-  new Street('Downriver Street', 1920, 9500, 0),
+  new Street('Downriver Street', 1920, 9500),
   new Street('Uptown Street', 1920, 189200, 4),
 ];
 
