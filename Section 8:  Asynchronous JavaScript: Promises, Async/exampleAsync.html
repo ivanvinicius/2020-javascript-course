@@ -76,6 +76,7 @@
       });
     }
 
+    /*
     getIDs
     .then((IDs) => {
       return getRecipe(IDs[2]);
@@ -90,7 +91,33 @@
     })
     .catch((error) => {
       console.log(error);
-    });
+    });*/
+
+    async function getRecipesAW(showMessage = true) {
+      const IDs = await getIDs;
+      showMessage ? console.log(IDs) : '';
+      
+      const recipe = await getRecipe(IDs[2]);
+      showMessage ? console.log(recipe) : '';
+      
+      const related = await getRelated('Jonas');
+      showMessage ? console.log(related) : '';
+      
+      return recipe;
+    }
+
+    /** 
+    * Just to show that the return in this case will not work
+    * logged -> Promise {<Pending>}
+    */
+    console.log(getRecipesAW(false));
+
+
+    /**
+    * To get a value of return, It needs to be like this one below
+    */
+    getRecipesAW().then((result) => console.log(`Result of return is: ${result}`));
+
 
   </script>
 </body>
