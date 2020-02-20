@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /** https://www.freecodecamp.org/forum/t/weather-app-ignoring-the-use-of-https-crossorigin-me-solved/136501 */
+    const cors = 'https://cors-anywhere.herokuapp.com/';
+    const url = 'https://www.metaweather.com/api/location/2487956/';
+    
+    fetch(cors + url)
+    .then((result) => {
+      return result.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  </script>
+</body>
+</html>
