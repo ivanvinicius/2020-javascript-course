@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <script>
+      async function getWeather(locationID) {
+        const cors = 'https://cors-anywhere.herokuapp.com/';
+        const url = `https://www.metaweather.com/api/location/${locationID}/`;
+
+        try {
+          const result = await fetch(cors + url);
+          const data = await result.json();
+          
+          console.log(data)
+
+          /** Async function will always return a promise*/
+          return data;  
+        }
+        catch (error) {
+          console.log(error);
+        }        
+      }
+
+      /** Getting the promisse returned before*/
+      getWeather(2487956).then(data => console.log(data));
+
+    </script>
+</body>
+</html>
